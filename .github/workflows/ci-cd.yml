@@ -39,18 +39,22 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-    - uses: actions/checkout@v3
-    - name: Download build
-      uses: actions/download-artifact@v3
-      with:
-        name: build
-        path: .next
-    - name: Deploy to VM
+    - name: Add SSH key to known hosts
       env:
         HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
-        echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-        scp -i private_key -r ./* $USERNAME@$HOST:/path/to/my-homepage
-        ssh -i private_key $USERNAME@$HOST "cd /path/to/my-homepage && ./scripts/deploy.sh"
+        mkdir -p ~/.ssh
+        ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
+
+    - name: Deploy to VM
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: github-deploy
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /opt/my-homepage/app
+          git pull origin main
+          /opt/my-homepage/scripts/deploy.sh
+
+      
