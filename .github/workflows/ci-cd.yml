@@ -50,11 +50,11 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: github-deploy
+        username: sp-deploy
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd /opt/my-homepage/app
+          cd /opt/myth/app
           git pull origin main
-          /opt/my-homepage/scripts/deploy.sh
+          /opt/myth/scripts/deploy.sh
 
       
