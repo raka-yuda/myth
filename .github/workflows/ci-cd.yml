@@ -35,26 +35,28 @@ jobs:
         path: .next
 
   deploy:
-    needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
-    - name: Add SSH key to known hosts
+    - name: Debug SSH
       env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         HOST: ${{ secrets.HOST }}
       run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
+        echo "$SSH_PRIVATE_KEY" > private_key
+        chmod 600 private_key
+        ssh-keygen -l -f private_key
+        ssh -v -i private_key -o StrictHostKeyChecking=no sp-deploy@$HOST echo "Connection test"
 
     - name: Deploy to VM
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
-        username: sp-deploy
+        username: github-deploy
         key: ${{ secrets.SSH_PRIVATE_KEY }}
+        debug: true
         script: |
-          cd /opt/myth/app
-          git pull origin main
+          cd /opt/myth/app/myth
+          GIT_SSH_COMMAND='ssh -i /home/sp-deploy/.ssh/sp-prod-key -o IdentitiesOnly=yes' git pull origin main
           /opt/myth/scripts/deploy.sh
 
       
