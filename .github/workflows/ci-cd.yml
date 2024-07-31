@@ -50,6 +50,10 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no sp-deploy@${{ secrets.HOST }} << 'EOF'
           cd /opt/myth/app/myth
+          if [ ! -d .git ]; then
+            echo ".git directory not found!"
+            exit 1
+          fi
           git pull origin main
           /opt/myth/scripts/deploy.sh
         EOF
