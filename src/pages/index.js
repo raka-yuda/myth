@@ -54,6 +54,11 @@ export default function Home() {
             description="Description of feature 6" 
             icon="🤣"
           />
+          <Feature 
+            title="Feature 7" 
+            description="Description of feature 7" 
+            icon="🤢"
+          />
         </div>
       </main>
 
