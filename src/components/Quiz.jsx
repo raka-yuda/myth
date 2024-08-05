@@ -27,7 +27,7 @@ const Quiz = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-blue-100 p-4">
+    <div className="flex flex-col items-center justify-center w-full p-4">
       <Question
         question={questions[currentQuestionIndex].question}
         options={questions[currentQuestionIndex].options}
