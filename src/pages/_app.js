@@ -1,5 +1,6 @@
 import Loading from "@/components/Loading";
 import "@/styles/globals.css";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 
 export default function App({ Component, pageProps }) {
