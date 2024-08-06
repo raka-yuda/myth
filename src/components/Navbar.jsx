@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+
 
 const Navbar = ({ logoSrc, links }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const router = useRouter();
 
   return (
     <nav className="bg-white bg-opacity-30 backdrop-blur-md shadow-lg fixed top-0 w-full z-50">
@@ -12,13 +16,21 @@ const Navbar = ({ logoSrc, links }) => {
           <div className="flex items-center w-full justify-between ">
             <div className="flex-shrink-0">
               {logoSrc && <img className="h-8 w-8" src={logoSrc} alt="Logo" />}
-              {!logoSrc && <p className="text-black">Logo</p>}
+              {!logoSrc && <p className="text-2xl text-black">🗿</p>}
             </div>
             <div className="hidden md:block justify-self-end">
               <div className="ml-10 flex items-baseline space-x-4">
-                {links.map((link, index) => (
-                  <Link key={index} href={link.href} legacyBehavior>
-                    <a className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{link.label}</a>
+                {links.map((link) => (
+                  <Link key={link.href} href={link.href} legacyBehavior>
+                    <a
+                      className={`px-3 py-2 rounded-md text-base font-medium ${
+                        router.pathname === link.href
+                          ? 'text-black'
+                          : 'hover:text-black text-gray-300'
+                      }`}
+                    >
+                      {link.label}
+                    </a>
                   </Link>
                 ))}
               </div>
@@ -45,10 +57,18 @@ const Navbar = ({ logoSrc, links }) => {
         </div>
       </div>
       <div className={`${isOpen ? 'block' : 'hidden'} md:hidden`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {links.map((link, index) => (
-            <Link key={index} href={link.href} legacyBehavior>
-              <a className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">{link.label}</a>
+        <div className="flex flex-col px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} legacyBehavior>
+              <a
+                className={`px-3 py-2 rounded-md text-base font-medium ${
+                  router.pathname === link.href
+                    ? 'text-black'
+                    : 'hover:text-black text-gray-300'
+                }`}
+              >
+                {link.label}
+              </a>
             </Link>
           ))}
         </div>
