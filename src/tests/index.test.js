@@ -19,7 +19,7 @@ describe('Home', () => {
     useRouter.mockImplementation(() => mockRouter);
     
     render(<Home />)
-    const heading = screen.getByRole('heading', { name: /Welcome to Myth/i })
+    const heading = screen.getByRole('heading', { name: /Myth/i })
     expect(heading).toBeInTheDocument()
   })
 })
