@@ -10,22 +10,20 @@ export default function QuizPage() {
     <div className="min-h-screen bg-gray-100">
       <Head>
         <title>Myth | Quiz</title>
-        <meta name="description" content="Welcome to my landing page" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Navbar links={LINKS} />
 
-      <main className="container mx-auto px-4 py-12 h-full min-h-[100vh] flex items-center justify-center">
-        <div className="flex-col justify-center">
+      <main className="container mx-auto px-4 py-12 h-full min-h-[100vh] max-w-xl flex items-center justify-center bg-white">
+        <div className="flex-col justify-center w-full">
           
-          <h1 className="text-4xl md:text-6xl font-bold text-center text-gray-800 mb-8">
-            Quiz Page
+          <h1 className="text-4xl md:text-6xl font-bold text-center text-gray-800 mb-16 mt-16 md:mt-0">
+            Myth - Quiz
           </h1>
 
-          <p className="text-xl text-center text-gray-600 mb-12">
-            A modern, responsive landing page built with Next.js and Tailwind CSS
-          </p>
+          {/* <p className="text-xl text-center text-gray-600 mb-12">
+            Let's do some game on mythical world!
+          </p> */}
 
           <Quiz/>
         </div>
