@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
 
-const Navbar = ({ logoSrc, links }) => {
+const Navbar = ({ logoSrc = "", links = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
@@ -83,11 +83,6 @@ Navbar.propTypes = {
     href: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired
   })).isRequired,
-};
-
-Navbar.defaultProps = {
-  logoSrc: '',
-  links: [],
 };
 
 export default Navbar;

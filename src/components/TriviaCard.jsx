@@ -9,7 +9,7 @@ const TriviaCard = ({ question, answer }) => {
 
   return (
     <div 
-      className="w-80 h-52 perspective-1000 cursor-pointer"
+      className="min-w-80 h-52 perspective-1000 cursor-pointer"
       onClick={handleFlip}
     >
       <div 
