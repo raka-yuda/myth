@@ -131,7 +131,8 @@ jobs:
           echo "============================ 4"
           ls -l /opt/myth/app/myth
           echo "============================ 5"
-          cd $DEPLOY_PATH
+          echo "$DEPLOY_PATH"
+          cd /opt/myth/app/myth
           pwd
           ls -l
           echo "============================ 6"
