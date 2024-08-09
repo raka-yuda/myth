@@ -114,6 +114,10 @@ jobs:
         # Copy the deploy script
         # scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH
 
+        echo "Starting SCP transfer..."
+        scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH || { echo "SCP failed"; exit 1; }
+        echo "SCP transfer completed."
+
         # Execute the deployment script
         ssh sp-deploy@$HOST << 'EOF'
           pwd
