@@ -89,13 +89,36 @@ jobs:
         # Display the last 100 lines of the log
         tail -n 100 "\$LOG_FILE"
         EOF
+
     - name: Deploy to VM
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: github-deploy
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
+      env:
+        HOST: ${{ secrets.HOST }}
+        DEPLOY_PATH: /opt/myth/app/myth
+      run: |
+
+        # echo "============================"
+        # ssh sp-deploy@$HOST
+
+        # echo "============================"
+        # ls -l
+
+        # echo "============================"
+        # pwd
+
+        # echo "============================"
+        # ls -l $DEPLOY_PATH
+
+        # echo "============================"
+        # ls -l $DEPLOY_PATH/deploy.sh
+        
+        # Copy the deploy script
+        # scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH
+
+        # Execute the deployment script
+        ssh sp-deploy@$HOST << 'EOF'
+          pwd
+          ls -l $DEPLOY_PATH
           cd $DEPLOY_PATH
           chmod +x deploy.sh
           ./deploy.sh
+        EOF
