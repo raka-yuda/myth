@@ -51,10 +51,13 @@ jobs:
           #!/bin/bash
           set -e
           set -x
+
           LOG_FILE="/opt/myth/logs/deploy_$(date +%Y%m%d_%H%M%S).log"
+
           log_message() {
               echo "$(date): $1" | tee -a "$LOG_FILE"
           }
+
           log_message "Navigating to the app directory"
           cd /opt/myth/app/myth 2>&1 | tee -a "$LOG_FILE"
 
@@ -71,8 +74,10 @@ jobs:
           sudo systemctl reload nginx 2>&1 | tee -a "$LOG_FILE"
 
           log_message "Deployment completed"
+
           # Display the last 100 lines of the log
           tail -n 100 "$LOG_FILE"
+
         EOF
 
     - name: Deploy to VM
@@ -88,6 +93,6 @@ jobs:
           cd $DEPLOY_PATH
           chmod +x deploy.sh
           ./deploy.sh
-          echo "Deployment log:"
-          sudo tail -n 50 /var/log/syslog
+          # echo "Deployment log:"
+          # sudo tail -n 50 /var/log/syslog
         EOF
