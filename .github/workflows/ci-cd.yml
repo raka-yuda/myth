@@ -89,12 +89,8 @@ jobs:
         DEPLOY_PATH: /opt/myth/app/myth
         SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
-        # Suppress host key checking warnings
-        mkdir -p ~/.ssh
-        echo -e "Host *\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null" > ~/.ssh/config
-        
         # Ensure the deploy directory exists
-        ssh sp-deploy@$HOST "mkdir -p $DEPLOY_PATH"
+        ssh -o StrictHostKeyChecking=no sp-deploy@$HOST "mkdir -p $DEPLOY_PATH"
         
         # Copy the build artifacts and necessary files
         scp -r .next package.json package-lock.json sp-deploy@$HOST:$DEPLOY_PATH
@@ -103,7 +99,7 @@ jobs:
         scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH
         
         # Run the deployment script
-        ssh sp-deploy@$HOST << EOF
+        ssh -o StrictHostKeyChecking=no sp-deploy@$HOST << EOF
           cd $DEPLOY_PATH
           chmod +x deploy.sh
           ./deploy.sh
