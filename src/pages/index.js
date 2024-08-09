@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 import { Inter } from "next/font/google";
 import Head from 'next/head'
 import Feature from '../components/Feature'
@@ -106,7 +109,11 @@ export default function Home({myths}) {
 
 export async function getServerSideProps() {
   try {
-    const myths = await fetchAllMyths();
+    // const myths = await fetchAllMyths();
+
+    const filePath = path.resolve(process.cwd(), 'src/datas/myths.json');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const myths = JSON.parse(fileContents);
 
     return { 
       props: { 

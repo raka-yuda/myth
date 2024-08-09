@@ -103,7 +103,7 @@ export async function getStaticPaths() {
       params: { id: myth.id.english },
     }));
 
-    console.log('Generated paths:', JSON.stringify(paths, null, 2));
+    // console.log('Generated paths:', JSON.stringify(paths, null, 2));
 
     return { paths, fallback: false };
   } catch (error) {
@@ -116,13 +116,19 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   console.log(`Starting getStaticProps for id: ${params.id}`);
   try {
-    console.log(`Fetching myth with id: ${params.id}`);
-    const currentStory = await fetchMythById(params.id);
-    console.log('Successfully fetched myth');
+    const { id } = params;
+    const filePath = path.resolve(process.cwd(), 'src/datas/myths.json');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const myths = JSON.parse(fileContents);
+
+    const myth = myths.find((myth) => (myth.id.english === id || myth.id.indonesian === id));
+
+    console.log(id);
+    console.log(myths);
 
     return { 
       props: { 
-        currentStory
+        currentStory: myth
       } 
     };
   } catch (error) {
