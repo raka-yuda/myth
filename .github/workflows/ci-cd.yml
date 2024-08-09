@@ -95,7 +95,21 @@ jobs:
         HOST: ${{ secrets.HOST }}
         DEPLOY_PATH: /opt/myth/app/myth
       run: |
+
+        echo "============================"
         ssh sp-deploy@$HOST
+
+        echo "============================"
+        ls -l
+
+        echo "============================"
+        pwd
+
+        echo "============================"
+        ls -l $DEPLOY_PATH
+
+        echo "============================"
+        ls -l $DEPLOY_PATH/deploy.sh
         
         # Copy the deploy script
         # scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH
