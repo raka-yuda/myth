@@ -118,7 +118,19 @@ jobs:
         ssh sp-deploy@$HOST << 'EOF'
           pwd
           ls -l $DEPLOY_PATH
+          echo "============================"
+          ls -l /opt
+          echo "============================"
+          ls -l /opt/myth
+          echo "============================"
+          ls -l /opt/myth/app
+          echo "============================"
+          ls -l /opt/myth/app/myth
+          echo "============================"
           cd $DEPLOY_PATH
+          pwd
+          ls -l
+          echo "============================"
           chmod +x deploy.sh
           ./deploy.sh
         EOF
