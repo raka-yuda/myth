@@ -47,42 +47,41 @@ jobs:
 
     - name: Create deploy script
       run: |
-        cat << EOF > deploy.sh
+        cat << 'EOF' > deploy.sh
           #!/bin/bash
           set -e
           set -x
 
           # Define the log file path
           LOG_DIR="/opt/myth/logs"
-          LOG_FILE="$LOG_DIR/deploy_$(date +%Y%m%d_%H%M%S).log"
+          LOG_FILE="\$LOG_DIR/deploy_\$(date +%Y%m%d_%H%M%S).log"
 
           # Ensure the logs directory exists
-          mkdir -p "$LOG_DIR"
+          mkdir -p "\$LOG_DIR"
 
           log_message() {
-              echo "$(date): $1" | tee -a "$LOG_FILE"
+              echo "\$(date): \$1" | tee -a "\$LOG_FILE"
           }
 
           log_message "Navigating to the app directory"
-          cd /opt/myth/app/myth 2>&1 | tee -a "$LOG_FILE"
+          cd /opt/myth/app/myth 2>&1 | tee -a "\$LOG_FILE"
 
           log_message "Pulling the latest changes"
-          git pull origin main 2>&1 | tee -a "$LOG_FILE"
+          git pull origin main 2>&1 | tee -a "\$LOG_FILE"
 
           log_message "Building and starting Docker containers"
-          docker-compose up --build -d 2>&1 | tee -a "$LOG_FILE"
+          docker-compose up --build -d 2>&1 | tee -a "\$LOG_FILE"
 
           log_message "Cleaning up old Docker images"
-          docker image prune -f 2>&1 | tee -a "$LOG_FILE"
+          docker image prune -f 2>&1 | tee -a "\$LOG_FILE"
 
           log_message "Reloading Nginx"
-          sudo systemctl reload nginx 2>&1 | tee -a "$LOG_FILE"
+          sudo systemctl reload nginx 2>&1 | tee -a "\$LOG_FILE"
 
           log_message "Deployment completed"
 
           # Display the last 100 lines of the log
-          tail -n 100 "$LOG_FILE"
-
+          tail -n 100 "\$LOG_FILE"
         EOF
 
     - name: Deploy to VM
@@ -98,6 +97,6 @@ jobs:
           cd $DEPLOY_PATH
           chmod +x deploy.sh
           ./deploy.sh
-          # echo "Deployment log:"
-          # sudo tail -n 50 /var/log/syslog
+          echo "Deployment log:"
+          sudo tail -n 50 /var/log/syslog
         EOF
