@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 import { useEffect, useState } from 'react';
 import TriviaCard from '@/components/TriviaCard';
 import Head from 'next/head';
@@ -6,6 +9,7 @@ import LINKS from "@/constants/links";
 import { useRouter } from 'next/router';
 import Error from 'next/error';
 import { fetchAllMyths, fetchMythById } from '@/services/myths';
+
 
 export default function StoryPage({currentStory}) {
 
@@ -91,12 +95,10 @@ export default function StoryPage({currentStory}) {
 export async function getStaticPaths() {
   console.log('Starting getStaticPaths');
   try {
-    console.log('Fetching all myths...');
-    const myths = await fetchAllMyths();
-    console.log(`Fetched ${myths.length} myths`);
-
-    console.log('NEXT_PUBLIC_SITE_URL:', process.env.NEXT_PUBLIC_SITE_URL);
-
+    const filePath = path.resolve(process.cwd(), 'src/datas/myths.json');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const myths = JSON.parse(fileContents);
+  
     const paths = myths.map((myth) => ({
       params: { id: myth.id.english },
     }));
