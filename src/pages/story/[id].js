@@ -89,8 +89,11 @@ export default function StoryPage({currentStory}) {
 
 
 export async function getStaticPaths() {
+  console.log('Starting getStaticPaths');
   try {
+    console.log('Fetching all myths...');
     const myths = await fetchAllMyths();
+    console.log(`Fetched ${myths.length} myths`);
 
     console.log('NEXT_PUBLIC_SITE_URL:', process.env.NEXT_PUBLIC_SITE_URL);
 
@@ -98,25 +101,22 @@ export async function getStaticPaths() {
       params: { id: myth.id.english },
     }));
 
-    console.log('paths:', paths);
+    console.log('Generated paths:', JSON.stringify(paths, null, 2));
 
     return { paths, fallback: false };
   } catch (error) {
     console.error('Failed to fetch myths:', error);
-    return { paths: [], fallback: false };
+    console.error('Error stack:', error.stack);
+    throw error; // Re-throw the error to fail the build
   }
 }
 
 export async function getStaticProps({ params }) {
-  // const response = await fetchMythById(params.id);
-  // if (!response.ok) {
-  //   return { notFound: true };
-  // }
-  // const currentStory = await response.json();
-
-  // return { props: { currentStory } };
+  console.log(`Starting getStaticProps for id: ${params.id}`);
   try {
+    console.log(`Fetching myth with id: ${params.id}`);
     const currentStory = await fetchMythById(params.id);
+    console.log('Successfully fetched myth');
 
     return { 
       props: { 
@@ -124,7 +124,8 @@ export async function getStaticProps({ params }) {
       } 
     };
   } catch (error) {
-    console.error('Error in getServerSideProps:', error);
+    console.error(`Error in getStaticProps for id ${params.id}:`, error);
+    console.error('Error stack:', error.stack);
     return { notFound: true };
   }
 }

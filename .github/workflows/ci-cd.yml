@@ -48,40 +48,53 @@ jobs:
     - name: Create deploy script
       run: |
         cat << EOF > deploy.sh
-        #!/bin/bash
+          #!/bin/bash
 
-        set -e
-        set -x
+          set -e
+          set -x
 
-        LOG_FILE="/opt/myth/logs/deploy_\$(date +%Y%m%d_%H%M%S).log"
+          LOG_FILE="/opt/myth/logs/deploy_$(date +%Y%m%d_%H%M%S).log"
 
-        log_message() {
-            echo "\$(date): \$1" | tee -a "\$LOG_FILE"
-        }
+          log_message() {
+              echo "$(date): $1" | tee -a "$LOG_FILE"
+          }
 
-        cd /opt/myth/app/myth
+          cd /opt/myth/app/myth
 
-        log_message "Installing dependencies"
-        npm ci
+          log_message "Installing dependencies"
+          npm ci
 
-        log_message "Starting/restarting the application"
-        pm2 restart myth || pm2 start npm --name "myth" -- start
+          log_message "Building the application"
+          npm run build 2>&1 | tee -a "$LOG_FILE"
 
-        log_message "Deployment completed successfully"
+          log_message "Starting/restarting the application"
+          pm2 restart myth || pm2 start npm --name "myth" -- start
+
+          log_message "Deployment completed"
+
+          # Display the last 100 lines of the log
+          tail -n 100 "$LOG_FILE"
         EOF
 
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.4
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      
     - name: Deploy to VM
       env:
         HOST: ${{ secrets.HOST }}
         DEPLOY_PATH: /opt/myth/app/myth
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
+        # Suppress host key checking warnings
+        mkdir -p ~/.ssh
+        echo -e "Host *\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null" > ~/.ssh/config
+        
         # Ensure the deploy directory exists
-        ssh -o StrictHostKeyChecking=no sp-deploy@$HOST "mkdir -p $DEPLOY_PATH"
+        ssh sp-deploy@$HOST "mkdir -p $DEPLOY_PATH"
         
         # Copy the build artifacts and necessary files
         scp -r .next package.json package-lock.json sp-deploy@$HOST:$DEPLOY_PATH
@@ -90,7 +103,7 @@ jobs:
         scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH
         
         # Run the deployment script
-        ssh -o StrictHostKeyChecking=no sp-deploy@$HOST << EOF
+        ssh sp-deploy@$HOST << EOF
           cd $DEPLOY_PATH
           chmod +x deploy.sh
           ./deploy.sh
