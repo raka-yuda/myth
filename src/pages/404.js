@@ -13,7 +13,7 @@ export default function CustomNotFoundPage() {
         <main className="container max-w-7xl mx-auto px-4 pt-16 h-full min-h-[100vh] flex flex-col items-center justify-between">
           <div className="flex-grow flex flex-col items-center justify-center w-full">
             <h1 className="text-4xl md:text-6xl font-bold text-center text-gray-800 mb-12">
-              Sorry, we can't found your mythical story 😞
+              {"Sorry, we can't found your mythical story 😞"}
             </h1>
           </div>
           <footer className="w-full flex items-center justify-end py-8 text-black">

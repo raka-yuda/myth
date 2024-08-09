@@ -70,7 +70,7 @@ export default function Home({myths}) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {myths && myths.map((story) => (
-                <div className="rounded-lg shadow p-4 text-black border-8 border-white bg-cover bg-center" style={{ backgroundImage: `url('your-image-url.jpg')` }}>
+                <div key={`story-${story.id.english}`} className="rounded-lg shadow p-4 text-black border-8 border-white bg-cover bg-center" style={{ backgroundImage: `url('your-image-url.jpg')` }}>
                   <div className="flex flex-col rounded border-2 border-white p-4 h-full justify-between">
                     <p className="text-xl text-gray-600 mb-24">
                       {story.title.english}
