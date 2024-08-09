@@ -39,21 +39,36 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Download build artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: build
+        path: .next
+
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.4
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Deploy to VM
+      env:
+        HOST: ${{ secrets.HOST }}
+        DEPLOY_PATH: /opt/myth/app/myth
       run: |
-        ssh -o StrictHostKeyChecking=no sp-deploy@${{ secrets.HOST }} << 'EOF'
-          cd /opt/myth/app/myth
-          if [ ! -d .git ]; then
-            echo ".git directory not found!"
-            exit 1
-          fi
-          git pull origin main
-          /opt/myth/scripts/deploy.sh
+        # Ensure the deploy directory exists
+        ssh sp-deploy@$HOST "mkdir -p $DEPLOY_PATH"
+        
+        # Copy the build artifacts and necessary files
+        scp -r .next package.json package-lock.json sp-deploy@$HOST:$DEPLOY_PATH
+        
+        # Copy the updated deploy.sh script
+        scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH
+        
+        # Run the deployment script
+        ssh sp-deploy@$HOST << EOF
+          cd $DEPLOY_PATH
+          chmod +x deploy.sh
+          ./deploy.sh
+          echo "Deployment log:"
+          cat /opt/myth/logs/deploy_*.log | tail -n 50
         EOF
-
-      
