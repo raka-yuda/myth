@@ -56,7 +56,7 @@ jobs:
               echo "$(date): $1" | tee -a "$LOG_FILE"
           }
           log_message "Navigating to the app directory"
-          cd /opt/myth/app 2>&1 | tee -a "$LOG_FILE"
+          cd /opt/myth/app/myth 2>&1 | tee -a "$LOG_FILE"
 
           log_message "Pulling the latest changes"
           git pull origin main 2>&1 | tee -a "$LOG_FILE"
