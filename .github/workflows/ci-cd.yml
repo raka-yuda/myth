@@ -52,7 +52,12 @@ jobs:
           set -e
           set -x
 
-          LOG_FILE="/opt/myth/logs/deploy_$(date +%Y%m%d_%H%M%S).log"
+          # Define the log file path
+          LOG_DIR="/opt/myth/logs"
+          LOG_FILE="$LOG_DIR/deploy_$(date +%Y%m%d_%H%M%S).log"
+
+          # Ensure the logs directory exists
+          mkdir -p "$LOG_DIR"
 
           log_message() {
               echo "$(date): $1" | tee -a "$LOG_FILE"
