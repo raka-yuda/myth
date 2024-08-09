@@ -92,9 +92,13 @@ export async function getStaticPaths() {
   try {
     const myths = await fetchAllMyths();
 
+    console.log('NEXT_PUBLIC_SITE_URL:', process.env.NEXT_PUBLIC_SITE_URL);
+
     const paths = myths.map((myth) => ({
       params: { id: myth.id.english },
     }));
+
+    console.log('paths:', paths);
 
     return { paths, fallback: false };
   } catch (error) {
