@@ -68,7 +68,7 @@ jobs:
         
         # Run the deployment script
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null sp-deploy@$HOST << EOF
-          cd $DEPLOY_PATH
+          cd /opt/myth/scripts
           chmod +x deploy.sh
           ./deploy.sh
           echo "Deployment log:"
