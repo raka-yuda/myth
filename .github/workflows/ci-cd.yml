@@ -49,6 +49,8 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.4
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      env:
+        SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
     - name: Deploy to VM
       env:
@@ -56,16 +58,16 @@ jobs:
         DEPLOY_PATH: /opt/myth/app/myth
       run: |
         # Ensure the deploy directory exists
-        ssh sp-deploy@$HOST "mkdir -p $DEPLOY_PATH"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null sp-deploy@$HOST "mkdir -p $DEPLOY_PATH"
         
         # Copy the build artifacts and necessary files
-        scp -r .next package.json package-lock.json sp-deploy@$HOST:$DEPLOY_PATH
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r .next package.json package-lock.json sp-deploy@$HOST:$DEPLOY_PATH
         
         # Copy the updated deploy.sh script
-        scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH
+        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null deploy.sh sp-deploy@$HOST:$DEPLOY_PATH
         
         # Run the deployment script
-        ssh sp-deploy@$HOST << EOF
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null sp-deploy@$HOST << EOF
           cd $DEPLOY_PATH
           chmod +x deploy.sh
           ./deploy.sh
