@@ -103,7 +103,7 @@ export async function getStaticPaths() {
       params: { id: myth.id.english },
     }));
 
-    // console.log('Generated paths:', JSON.stringify(paths, null, 2));
+    console.log('Generated paths:', JSON.stringify(paths, null, 2));
 
     return { paths, fallback: false };
   } catch (error) {
@@ -122,9 +122,6 @@ export async function getStaticProps({ params }) {
     const myths = JSON.parse(fileContents);
 
     const myth = myths.find((myth) => (myth.id.english === id || myth.id.indonesian === id));
-
-    console.log(id);
-    console.log(myths);
 
     return { 
       props: { 
