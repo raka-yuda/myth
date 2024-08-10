@@ -103,7 +103,8 @@ jobs:
         # Execute the deployment script
         ssh sp-deploy@$HOST << 'EOF'
           echo "$DEPLOY_PATH"
-          cd "$DEPLOY_PATH"
+          echo $DEPLOY_PATH
+          cd /opt/myth/app/myth
           chmod +x deploy.sh
           ./deploy.sh
         EOF
