@@ -3,14 +3,10 @@ import path from 'path';
 
 import { Inter } from "next/font/google";
 import Head from 'next/head'
-import Feature from '../components/Feature'
+import Link from "next/link";
 
 import Navbar from "@/components/Navbar";
 import LINKS from "@/constants/links";
-import Loading from "@/components/Loading";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { fetchAllMyths } from "@/services/myths";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,35 +24,10 @@ function getRandomElements(arr, num) {
 
 
 export default function Home({myths}) {
-
-  // const myths = [
-  //   {
-  //     id: "legenda-danau-toba",
-  //     title: "Legenda Danau Toba",
-  //     synopsis: "Seorang pemuda bernama Toba menikahi seorang putri ikan. Mereka memiliki seorang anak, tapi Toba melanggar janji yang dibuat dengan istrinya, menyebabkan terjadinya bencana besar yang membentuk Danau Toba.",
-  //     full_story: "",
-  //     background_image: "",
-  //   },
-  //   {
-  //     id: "legenda-malin-kundang",
-  //     title: "Legenda Malin Kundang",
-  //     synopsis: "Seorang pemuda bernama Malin Kundang durhaka kepada ibunya setelah menjadi kaya. Karena itu, dia dikutuk menjadi batu oleh ibunya.",
-  //     full_story: "",
-  //     background_image: "",
-  //   },
-  //   {
-  //     id: "legenda-roro-jonggrang",
-  //     title: "Legenda Roro Jonggrang",
-  //     synopsis: "Seorang putri cantik bernama Roro Jonggrang meminta seorang pangeran untuk membangun seribu candi dalam semalam sebagai syarat pernikahan. Pangeran hampir berhasil, tapi Roro Jonggrang menggagalkan usahanya.",
-  //     full_story: "",
-  //     background_image: "",
-  //   },
-  // ];
-
   return (
     <div>
       <Head>
-        <title>Myth | Home</title>
+        <title>Home | Myth</title>
       </Head>
       <div className="min-h-screen bg-gray-100">
         <Navbar links={LINKS} />

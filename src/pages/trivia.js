@@ -29,7 +29,7 @@ export default function TriviaPage() {
   return (
     <div className="min-h-screen bg-gray-100 relative">
       <Head>
-        <title>Myth | Trivia</title>
+        <title>Trivia | Myth</title>
       </Head>
 
       <Navbar links={LINKS} />
