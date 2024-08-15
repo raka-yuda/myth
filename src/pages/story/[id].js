@@ -10,7 +10,7 @@ export default function StoryPage({currentStory}) {
   return (
     <div className="min-h-screen bg-gray-100 relative">
       <Head>
-        <title>Myth | {currentStory ? currentStory.title.english : "Story"}</title>
+        <title>{currentStory ? currentStory.title.english : "Story"} | Myth</title>
       </Head>
 
       <Navbar links={LINKS} />
