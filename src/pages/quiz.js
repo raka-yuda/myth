@@ -9,7 +9,7 @@ export default function QuizPage() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Head>
-        <title>Myth | Quiz</title>
+        <title>Quiz | Myth</title>
       </Head>
 
       <Navbar links={LINKS} />
