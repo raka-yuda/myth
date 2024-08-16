@@ -6,7 +6,7 @@ export default function CustomNotFoundPage() {
   return (
     <div>
       <Head>
-        <title>Myth | Not Found</title>
+        <title>Not Found | Myth</title>
       </Head>
       <div className="min-h-screen bg-gray-100">
         <Navbar links={LINKS} />
