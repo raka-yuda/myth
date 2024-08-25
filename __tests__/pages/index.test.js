@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import HomePage from '../index'
+import HomePage from '@/pages/index'
 import { useRouter } from 'next/router';
 
 // Mock the useRouter hook

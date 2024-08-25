@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import TriviaCard from '../TriviaCard';
+import TriviaCard from '@/components/TriviaCard';
 
 describe('TriviaCard', () => {
   const question = 'What is the capital of France?';
