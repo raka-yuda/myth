@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import Home from '../pages/index'
+import HomePage from '../index'
 import { useRouter } from 'next/router';
 
 // Mock the useRouter hook
@@ -18,7 +18,7 @@ describe('Home', () => {
   
     useRouter.mockImplementation(() => mockRouter);
     
-    render(<Home />)
+    render(<HomePage />)
     const heading = screen.getByRole('heading', { name: /Myth/i })
     expect(heading).toBeInTheDocument()
   })
