@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import QuizPage from '../quiz'
+import TriviaPage from '@/pages/trivia'
 import { useRouter } from 'next/router';
 
 // Mock the useRouter hook
@@ -18,8 +18,8 @@ describe('Home', () => {
   
     useRouter.mockImplementation(() => mockRouter);
     
-    render(<QuizPage />)
-    const heading = screen.getByRole('heading', { name: /Quiz/i })
+    render(<TriviaPage />)
+    const heading = screen.getByRole('heading', { name: /Trivia/i })
     expect(heading).toBeInTheDocument()
   })
 })
