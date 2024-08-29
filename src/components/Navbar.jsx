@@ -19,7 +19,7 @@ const Navbar = ({ logoSrc = "", links = [] }) => {
               {!logoSrc && <p className="text-2xl text-black">🗿</p>}
             </div>
             <div className="hidden md:block justify-self-end">
-              <div className="ml-10 flex items-baseline space-x-4">
+              <div className="ml-10 flex items-baseline space-x-4" data-testid="links">
                 {links.map((link) => (
                   <Link key={link.href} href={link.href} legacyBehavior>
                     <a
