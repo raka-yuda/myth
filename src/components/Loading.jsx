@@ -32,9 +32,9 @@ const Loading = ({ text = 'loading', duration = 3000, completeDelay = 500 }) => 
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white text-black ">
-      <div className="text-2xl mb-4">{displayText}</div>
+      <div data-testid={"display-text"} className="text-2xl mb-4">{displayText}</div>
       {/* <div className="text-xl">{progress}%</div> */}
-      <div className="w-[25%]">
+      <div data-testid={"progress"} className="w-[25%]">
         <ProgressBar progress={progress}/>
       </div>
     </div>
