@@ -1,10 +1,6 @@
-import { useState } from 'react';
-
-const TriviaCard = ({ question, answer, highlight }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
-
+const TriviaCard = ({ question, answer, highlight, isFlipped, onFlip }) => {
   const handleFlip = () => {
-    setIsFlipped(!isFlipped);
+    onFlip();
   };
 
   return (
@@ -25,7 +21,7 @@ const TriviaCard = ({ question, answer, highlight }) => {
           <h2 className="text-xl font-bold p-4 text-center text-black">{question}</h2>
         </div>
         <div className="absolute w-full h-full backface-hidden flex items-center justify-center rounded-lg shadow-md bg-white rotate-y-180">
-          <p className="text-lg p-4 text-center text-black">{answer}</p>
+          <h2 className="text-xl font-bold p-4 text-center text-black">{answer}</h2>
         </div>
       </div>
     </div>

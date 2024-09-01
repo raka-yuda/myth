@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router'
 import { render, within } from '@testing-library/react';
-import '@testing-library/jest-dom';
 
 import Navbar from '@/components/Navbar';
 import LINKS from "@/constants/links";
