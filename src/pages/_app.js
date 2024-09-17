@@ -23,27 +23,25 @@ export default function App({ Component, pageProps }) {
         <meta name="keywords" content="myths, legends, ancient stories, gods, heroes" />
         <meta property="og:title" content="Myth | Explore Ancient Myths" />
         <meta property="og:description" content="Discover and read various ancient myths from around the world. Delve into fascinating legends and more." />
-        <meta property="og:image" content="https://images.pexels.com/photos/2823459/pexels-photo-2823459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
+        <meta property="og:image"  content="https://images.pexels.com/photos/2823459/pexels-photo-2823459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
         <meta property="og:url" content="https://myth.ryuda.me" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Article",
-              "headline": "Explore Ancient Myths",
-              "description": "Explore ancient myths and their fascinating stories from different cultures.",
-              "author": {
-                "@type": "Person",
-                "name": "ryuda"
-              },
-              "datePublished": "2024-09-17",
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://myth.ryuda.me"
-              }
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Explore Ancient Myths",
+            "description": "Explore ancient myths and their fascinating stories from different cultures.",
+            "author": {
+              "@type": "Person",
+              "name": "ryuda"
+            },
+            "datePublished": "2024-09-17",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://myth.ryuda.me"
             }
-          `}
+          })}
         </script>
       </Head>
       {isLoading ? (
