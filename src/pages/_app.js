@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1500); // Set the same duration as the Loading component
+    }, 1500); 
 
     return () => clearTimeout(timer);
   }, []);
@@ -26,23 +26,26 @@ export default function App({ Component, pageProps }) {
         <meta property="og:image"  content="https://images.pexels.com/photos/2823459/pexels-photo-2823459.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
         <meta property="og:url" content="https://myth.ryuda.me" />
         <meta name="twitter:card" content="summary_large_image" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": "Explore Ancient Myths",
-            "description": "Explore ancient myths and their fascinating stories from different cultures.",
-            "author": {
-              "@type": "Person",
-              "name": "ryuda"
-            },
-            "datePublished": "2024-09-17",
-            "mainEntityOfPage": {
-              "@type": "WebPage",
-              "@id": "https://myth.ryuda.me"
-            }
-          })}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": "Explore Ancient Myths",
+              "description": "Explore ancient myths and their fascinating stories from different cultures.",
+              "author": {
+                "@type": "Person",
+                "name": "ryuda"
+              },
+              "datePublished": "2024-09-17",
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://myth.ryuda.me"
+              }
+            }),
+          }}
+        />
       </Head>
       {isLoading ? (
         <Loading text="Welcome to the Mythical World!" duration={1000}/>
