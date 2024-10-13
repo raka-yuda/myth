@@ -20,12 +20,14 @@ function getRandomElements(arr, num) {
 export default function Home({ myths }) {
   const [availableLanguages, setAvailableLanguages] = useState([]);
   const [language, setLanguage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (myths && myths.length > 0) {
       const languages = Object.keys(myths[0].title);
       setAvailableLanguages(languages);
-      setLanguage(languages[0]); // Set the first available language as default
+      setLanguage(languages[0]);
+      setIsLoading(false);
     }
   }, [myths]);
 
@@ -35,9 +37,10 @@ export default function Home({ myths }) {
     setLanguage(availableLanguages[nextIndex]);
   };
 
-  if (!language) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <div>
@@ -48,8 +51,8 @@ export default function Home({ myths }) {
         <Navbar links={LINKS} />
         <main className="container max-w-7xl mx-auto px-4 pt-16 h-full min-h-[100vh] flex flex-col items-center justify-between">
           <div className="flex-col justify-center max-w-7xl h-full md:pt-36">
-            <div className="flex justify-between items-center mb-12">
-              <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800">
+          <div className="flex justify-between items-center mb-12">
+              <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800" data-testid="main-heading">
                 Myth
               </h1>
               <button 
