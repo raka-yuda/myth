@@ -1,14 +1,13 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import HomePage from '@/pages/index'
 import { useRouter } from 'next/router';
 
-// Mock the useRouter hook
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
 describe('Home', () => {
-  it('renders a heading', () => {
+  it('renders a heading', async () => {
     const mockRouter = {
       pathname: '/',
       route: '/',
@@ -17,9 +16,20 @@ describe('Home', () => {
     };
   
     useRouter.mockImplementation(() => mockRouter);
+
+    const mockMyths = [
+      {
+        title: { english: 'Test Myth', indonesian: 'Uji Mitos' },
+        synopsis: { english: 'Test synopsis', indonesian: 'Uji Sinopsis' },
+        id: { english: 'test-myth', indonesian: 'uji-mitos' }
+      }
+    ];
     
-    render(<HomePage />)
-    const heading = screen.getByRole('heading', { name: /Myth/i })
-    expect(heading).toBeInTheDocument()
+    render(<HomePage myths={mockMyths} />)
+
+    await waitFor(() => {
+      const heading = screen.getByTestId('main-heading');
+      expect(heading).toHaveTextContent('Myth');
+    }, { timeout: 2000 });
   })
 })
