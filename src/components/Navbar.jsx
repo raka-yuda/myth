@@ -21,12 +21,16 @@ const Navbar = ({ logoSrc = "", links = [] }) => {
             <div className="hidden md:block justify-self-end">
               <div className="ml-10 flex items-baseline space-x-4" data-testid="links">
                 {links.map((link) => (
-                  <Link key={link.href} href={link.href} legacyBehavior>
+                  <Link 
+                    key={link.href} 
+                    href={link.href} 
+                    className='cursor-pointer'
+                    legacyBehavior>
                     <a
-                      className={`px-3 py-2 rounded-md text-base font-medium ${
+                      className={`px-3 py-2 rounded-md text-base font-medium hover:cursor-pointer ${
                         router.pathname === link.href
                           ? 'text-black'
-                          : 'hover:text-black text-gray-300'
+                          : 'hover:text-black text-gray-400'
                       }`}
                     >
                       {link.label}

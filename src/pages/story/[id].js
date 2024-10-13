@@ -1,41 +1,66 @@
+import React, { useState, useEffect } from 'react';
 import fs from 'fs';
 import path from 'path';
-
 import Head from 'next/head';
 import Navbar from "@/components/Navbar";
 import LINKS from "@/constants/links";
 
-export default function StoryPage({currentStory}) {
+export default function StoryPage({ currentStory }) {
+  const [availableLanguages, setAvailableLanguages] = useState([]);
+  const [language, setLanguage] = useState('');
+
+  useEffect(() => {
+    if (currentStory) {
+      const languages = Object.keys(currentStory.title);
+      setAvailableLanguages(languages);
+      setLanguage(languages[0]); // Set the first available language as default
+    }
+  }, [currentStory]);
+
+  const toggleLanguage = () => {
+    const currentIndex = availableLanguages.indexOf(language);
+    const nextIndex = (currentIndex + 1) % availableLanguages.length;
+    setLanguage(availableLanguages[nextIndex]);
+  };
+
+  if (!language) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 relative">
       <Head>
-        <title>{currentStory ? currentStory.title.english : "Story"} | Myth</title>
+        <title>{currentStory ? currentStory.title[language] : "Story"} | Myth</title>
       </Head>
 
       <Navbar links={LINKS} />
 
       <main className="container max-w-7xl mx-auto px-4 pt-16 h-full min-h-[100vh] flex flex-col items-center justify-between">
-        <div className="flex-col justify-start mt-12">
+        <div className="flex-col justify-start mt-12 w-full">
           {currentStory ? (
             <div>
-              <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800 mb-12 mt-16 md:mt-0">
-                {currentStory.title.english}
-              </h1>
+              <div className="flex justify-between items-center mb-12">
+                <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800 mt-16 md:mt-0">
+                  {currentStory.title[language]}
+                </h1>
+                <button 
+                  onClick={toggleLanguage} 
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  {availableLanguages[(availableLanguages.indexOf(language) + 1) % availableLanguages.length]}
+                </button>
+              </div>
               <p className="text-xl text-gray-600 mb-6">
-                {currentStory.full_story.english}
+                {currentStory.full_story[language]}
               </p>
             </div>
           ) : (
             <div>
-              <div>
               <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800 mb-12 mt-16 md:mt-0">
-                  Myth - Story
-                </h1>
-              </div>
+                Myth - Story
+              </h1>
             </div>
           )}
-          
         </div>
       </main>
     </div>
@@ -49,9 +74,11 @@ export async function getStaticPaths() {
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const myths = JSON.parse(fileContents);
   
-    const paths = myths.map((myth) => ({
-      params: { id: myth.id.english },
-    }));
+    const paths = myths.flatMap((myth) => 
+      Object.values(myth.id).map((id) => ({
+        params: { id },
+      }))
+    );
 
     console.log('Generated paths:', JSON.stringify(paths, null, 2));
 
@@ -71,7 +98,7 @@ export async function getStaticProps({ params }) {
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const myths = JSON.parse(fileContents);
 
-    const myth = myths.find((myth) => (myth.id.english === id || myth.id.indonesian === id));
+    const myth = myths.find((myth) => Object.values(myth.id).includes(id));
 
     return { 
       props: { 
