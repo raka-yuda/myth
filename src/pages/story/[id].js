@@ -4,6 +4,7 @@ import path from 'path';
 import Head from 'next/head';
 import Navbar from "@/components/Navbar";
 import LINKS from "@/constants/links";
+import LanguageSelector from '@/components/LanguageSelector';
 
 export default function StoryPage({ currentStory }) {
   const [availableLanguages, setAvailableLanguages] = useState([]);
@@ -43,12 +44,17 @@ export default function StoryPage({ currentStory }) {
                 <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800 mt-16 md:mt-0">
                   {currentStory.title[language]}
                 </h1>
-                <button 
+                {/* <button 
                   onClick={toggleLanguage} 
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
                   {availableLanguages[(availableLanguages.indexOf(language) + 1) % availableLanguages.length]}
-                </button>
+                </button> */}
+                <LanguageSelector
+                  availableLanguages={availableLanguages}
+                  currentLanguage={language}
+                  onLanguageChange={setLanguage}
+                />
               </div>
               <p className="text-xl text-gray-600 mb-6">
                 {currentStory.full_story[language]}
