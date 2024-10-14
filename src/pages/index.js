@@ -6,6 +6,7 @@ import Head from 'next/head';
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import LINKS from "@/constants/links";
+import LanguageSelector from "@/components/LanguageSelector";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,16 +32,9 @@ export default function Home({ myths }) {
     }
   }, [myths]);
 
-  const toggleLanguage = () => {
-    const currentIndex = availableLanguages.indexOf(language);
-    const nextIndex = (currentIndex + 1) % availableLanguages.length;
-    setLanguage(availableLanguages[nextIndex]);
-  };
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
 
   return (
     <div>
@@ -50,17 +44,16 @@ export default function Home({ myths }) {
       <div className="min-h-screen bg-gray-100">
         <Navbar links={LINKS} />
         <main className="container max-w-7xl mx-auto px-4 pt-16 h-full min-h-[100vh] flex flex-col items-center justify-between">
-          <div className="flex-col justify-center max-w-7xl h-full md:pt-36">
-          <div className="flex justify-between items-center mb-12">
+          <div className="flex-col justify-center max-w-7xl h-full md:pt-36 w-full">
+            <div className="flex justify-between items-center mb-12">
               <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800" data-testid="main-heading">
                 Myth
               </h1>
-              <button 
-                onClick={toggleLanguage} 
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              >
-                {availableLanguages[(availableLanguages.indexOf(language) + 1) % availableLanguages.length]}
-              </button>
+              <LanguageSelector
+                availableLanguages={availableLanguages}
+                currentLanguage={language}
+                onLanguageChange={setLanguage}
+              />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -92,7 +85,7 @@ export default function Home({ myths }) {
           </div>
           <footer className="flex self-end text-center py-8 text-black">
             <a href="#" target="_blank" rel="noopener noreferrer">
-              {language === 'english' ? 'Made with ❤️' : 'Dibuat dengan ❤️'}
+              Made with ❤️
             </a>
           </footer>
         </main>
