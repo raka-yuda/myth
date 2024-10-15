@@ -40,8 +40,13 @@ export default function StoryPage({ currentStory }) {
         <div className="flex-col justify-start mt-12 w-full">
           {currentStory ? (
             <div>
-              <div className="flex justify-between items-center mb-12">
-                <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800 mt-16 md:mt-0">
+              <div className="flex flex-col justify-center items-start mb-12 gap-4">
+                <LanguageSelector
+                  availableLanguages={availableLanguages}
+                  currentLanguage={language}
+                  onLanguageChange={setLanguage}
+                />
+                <h1 className="text-4xl md:text-6xl font-bold text-start text-gray-800">
                   {currentStory.title[language]}
                 </h1>
                 {/* <button 
@@ -50,11 +55,6 @@ export default function StoryPage({ currentStory }) {
                 >
                   {availableLanguages[(availableLanguages.indexOf(language) + 1) % availableLanguages.length]}
                 </button> */}
-                <LanguageSelector
-                  availableLanguages={availableLanguages}
-                  currentLanguage={language}
-                  onLanguageChange={setLanguage}
-                />
               </div>
               <p className="text-xl text-gray-600 mb-6">
                 {currentStory.full_story[language]}
