@@ -66,7 +66,7 @@ export default function TriviaPage() {
             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-80 z-[51]"/>
           )}
 
-          <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 mb-8`}>
+          <div className={`grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8`}>
             {currentTrivia.map((item, index) => (
               <div key={index} className={`transition-all duration-500 ${isShuffling ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${showHint ? 'z-[52]' : ''}`}>
                 <TriviaCard 
