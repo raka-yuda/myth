@@ -11,7 +11,7 @@ export default function LanguageSelector({ availableLanguages, currentLanguage, 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative inline-block text-left">
+    <div className="flex justify-end text-left w-full">
       <div>
         <button
           type="button"
