@@ -11,7 +11,7 @@ export default function LanguageSelector({ availableLanguages, currentLanguage, 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex justify-end text-left w-full">
+    <div className="relative flex justify-end text-left w-full">
       <div>
         <button
           type="button"
@@ -28,7 +28,7 @@ export default function LanguageSelector({ availableLanguages, currentLanguage, 
 
       {isOpen && (
         <div
-          className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
+          className="origin-top-right absolute right-0 top-10 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="language-menu"
