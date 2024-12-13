@@ -17,11 +17,11 @@ const TriviaCard = ({ question, answer, highlight, isFlipped, onFlip }) => {
           ${isFlipped ? 'rotate-y-180' : ''}
         `}
       >
-        <div className="absolute w-full h-full backface-hidden flex items-center justify-center rounded-lg shadow-md bg-white">
-          <h2 className="text-xl font-bold p-4 text-center text-black">{question}</h2>
+        <div className={`absolute w-full h-full backface-hidden flex items-center justify-center rounded-lg shadow-md bg-white`}>
+          <h2 className={`text-xl font-bold p-4 text-center text-black `}>{question}</h2>
         </div>
         <div className="absolute w-full h-full backface-hidden flex items-center justify-center rounded-lg shadow-md bg-white rotate-y-180">
-          <h2 className="text-xl font-bold p-4 text-center text-black">{answer}</h2>
+          <h2 className="text-xl font-bold p-4 text-center text-black transition-all duration-1000">{answer}</h2>
         </div>
       </div>
     </div>
