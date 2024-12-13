@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+console.log('Next.js build environment:', process.env.NODE_ENV);
+console.log('Next.js build environment:', process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL);
+console.log('Next.js build environment:', process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID);
+
 const nextConfig = {
   reactStrictMode: true,
   env: {
