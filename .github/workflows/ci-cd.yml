@@ -26,6 +26,10 @@ jobs:
       with:
         node-version: '18'
     - run: npm ci
+    - name: Create .env.production file
+      run: |
+        echo "NEXT_PUBLIC_UMAMI_WEBSITE_ID=${{ secrets.UMAMI_WEBSITE_ID }}" >> .env.production
+        echo "NEXT_PUBLIC_UMAMI_SCRIPT_URL=${{ secrets.UMAMI_SCRIPT_URL }}" >> .env.production
     - run: npm run build
     - name: Build Docker Image
       run: docker build -t myth:latest .
