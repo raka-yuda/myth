@@ -26,10 +26,6 @@ jobs:
       with:
         node-version: '18'
     - run: npm ci
-    - name: Create .env.production file
-      run: |
-        echo "NEXT_PUBLIC_UMAMI_WEBSITE_ID=${{ secrets.UMAMI_WEBSITE_ID }}" >> .env.production
-        echo "NEXT_PUBLIC_UMAMI_SCRIPT_URL=${{ secrets.UMAMI_SCRIPT_URL }}" >> .env.production
     - run: npm run build
     - name: Build Docker Image
       run: docker build -t myth:latest .
@@ -48,6 +44,11 @@ jobs:
     - name: Set SSH config
       run: |
         echo -e "Host *\n\tStrictHostKeyChecking no\n\tUserKnownHostsFile=/dev/null" > ~/.ssh/config
+        
+    - name: Create .env.production file
+      run: |
+        echo "NEXT_PUBLIC_UMAMI_WEBSITE_ID=${{ secrets.UMAMI_WEBSITE_ID }}" >> .env.production
+        echo "NEXT_PUBLIC_UMAMI_SCRIPT_URL=${{ secrets.UMAMI_SCRIPT_URL }}" >> .env.production
 
     - name: Create deploy script
       run: |
@@ -98,8 +99,8 @@ jobs:
         HOST: ${{ secrets.HOST }}
         DEPLOY_PATH: /opt/myth/app/myth
       run: |
-
         echo "Starting SCP transfer..."
+        scp .env.production sp-deploy@$HOST:$DEPLOY_PATH || { echo "SCP failed"; exit 1; }
         scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH || { echo "SCP failed"; exit 1; }
         echo "SCP transfer completed."
 
