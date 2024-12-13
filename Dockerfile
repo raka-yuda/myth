@@ -10,7 +10,7 @@ FROM node:18-alpine AS builder
 WORKDIR /home/app
 COPY --from=dependencies /home/app/node_modules ./node_modules
 COPY . .
-COPY .env.production .env
+COPY .env.production .env.production
 
 ENV NEXT_TELEMETRY_DISABLED 1
 RUN npm run build
@@ -27,7 +27,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /home/app/.next/standalone ./
 COPY --from=builder /home/app/.next/static ./.next/static
 COPY --from=builder /home/app/public ./public
-COPY --from=builder /home/app/.env ./.env
+COPY --from=builder /home/app/.env.production ./.env.production
 
 # Set correct permissions
 RUN chown -R nextjs:nodejs /home/app
@@ -35,9 +35,9 @@ RUN chown -R nextjs:nodejs /home/app
 # Switch to non-root user
 USER nextjs
 
-ENV NEXT_TELEMETRY_DISABLED 1
-ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 EXPOSE 3000
-ENV PORT 3000
+ENV PORT=3000
 
 CMD ["node", "server.js"]
