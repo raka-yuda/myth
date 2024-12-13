@@ -1,3 +1,4 @@
+import Analytics from "@/components/Analytics";
 import Loading from "@/components/Loading";
 import "@/styles/globals.css";
 import Head from "next/head";
@@ -47,6 +48,7 @@ export default function App({ Component, pageProps }) {
           }}
         />
       </Head>
+      {(process.env.NODE_ENV === "production") && <Analytics />}
       {isLoading ? (
         <Loading text="Welcome to the Mythical World!" duration={1000}/>
       ) : (
