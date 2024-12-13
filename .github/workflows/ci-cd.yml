@@ -120,7 +120,7 @@ jobs:
         # echo "NEXT_PUBLIC_UMAMI_WEBSITE_ID=${{ secrets.UMAMI_WEBSITE_ID }}" >> .env.production
         # echo "NEXT_PUBLIC_UMAMI_SCRIPT_URL=${{ secrets.UMAMI_SCRIPT_URL }}" >> .env.production
 
-        # scp .env.production sp-deploy@$HOST:$DEPLOY_PATH || { echo "SCP failed"; exit 1; }
+        scp .env.production sp-deploy@$HOST:$DEPLOY_PATH || { echo "SCP failed"; exit 1; }
         scp deploy.sh sp-deploy@$HOST:$DEPLOY_PATH || { echo "SCP failed"; exit 1; }
         echo "SCP transfer completed."
 
