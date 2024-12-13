@@ -29,7 +29,9 @@ export default function TriviaPage() {
       setShowHint(true);
       localStorage.setItem('firstVisit', 'false');
     }
-    shuffleTrivia();
+    // shuffleTrivia();
+    const shuffled = [...trivia].sort(() => Math.random() - 0.5);
+    setCurrentTrivia(shuffled.slice(0, 3));
   }, []);
 
   const handleDismissHint = () => {
@@ -38,10 +40,12 @@ export default function TriviaPage() {
 
   const shuffleTrivia = () => {
     setIsShuffling(true);
-    const shuffled = [...trivia].sort(() => Math.random() - 0.5);
-    setCurrentTrivia(shuffled.slice(0, 3));
     setFlippedCards({});
-    setTimeout(() => setIsShuffling(false), 500);
+    setTimeout(() => {
+      const shuffled = [...trivia].sort(() => Math.random() - 0.5);
+      setCurrentTrivia(shuffled.slice(0, 3));
+      setIsShuffling(false)
+    }, 500);
   };
 
   const handleCardFlip = (index) => {
