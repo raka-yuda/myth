@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import fs from 'fs';
-import path from 'path';
-import { Inter } from "next/font/google";
+import React, { useState, useEffect, useMemo } from 'react';
 import Head from 'next/head';
-import Link from "next/link";
-import Navbar from "@/components/Navbar";
-import LINKS from "@/constants/links";
-import LanguageSelector from "@/components/LanguageSelector";
 
-const inter = Inter({ subsets: ["latin"] });
+import LINKS from "@/constants/links";
+
+import LanguageSelector from "@/components/LanguageSelector";
+import CardStory from '@/components/CardStory';
+import Navbar from "@/components/Navbar";
 
 function getRandomElements(arr, num) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -19,25 +16,26 @@ function getRandomElements(arr, num) {
 }
 
 export default function Home({ myths }) {
-  const [availableLanguages, setAvailableLanguages] = useState([]);
-  const [language, setLanguage] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const availableLanguages = useMemo(() => Object.keys(myths[0]?.title || {}), [myths]);
 
-  useEffect(() => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [language, setLanguage] = useState(availableLanguages[0] || '');
+
+
+  useEffect(() => { 
     if (myths && myths.length > 0) {
       const languages = Object.keys(myths[0].title);
-      setAvailableLanguages(languages);
       setLanguage(languages[0]);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, [myths]);
 
   if (isLoading) {
     return <div>Loading...</div>;
-  }
+  };
 
   return (
-    <div>
+    <>
       <Head>
         <title>Home | Myth</title>
       </Head>
@@ -58,28 +56,11 @@ export default function Home({ myths }) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {myths && myths.map((story) => (
-                <div 
-                  key={`story-${story.id[language]}`} 
-                  className="rounded-lg shadow p-4 text-black border-8 border-white bg-cover bg-center"
-                >
-                  <div className="flex flex-col rounded border-2 border-white p-4 h-full justify-between">
-                    <p className="text-xl text-gray-600 mb-24">
-                      {story.title[language]}
-                    </p>
-                    <p className="text-xl text-gray-600 mb-2">
-                      {language === 'english' ? 'Synopsis:' : 'Sinopsis:'}
-                    </p>
-                    <p className="text-xl text-gray-600 mb-6 line-clamp-5">
-                      {story.synopsis[language]}
-                    </p>
-                    <Link
-                      href={`/story/${story.id[language]}`} 
-                      className="text-base text-end text-gray-600 mb-2 hover:underline"
-                    >
-                      {language === 'english' ? 'Read More...' : 'Baca Selengkapnya...'}
-                    </Link>
-                  </div>
-                </div>
+                <CardStory 
+                  key={`story-${story?.id[language]}`}
+                  story={story}
+                  language={language}
+                />
               ))}
             </div>
           </div>
@@ -90,23 +71,28 @@ export default function Home({ myths }) {
           </footer>
         </main>
       </div>
-    </div>
+    </>
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
-    const filePath = path.resolve(process.cwd(), 'src/datas/myths.json');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const myths = JSON.parse(fileContents);
+     const { default: allMyths } = await import('@/datas/myths.json');
+    
+     const selectedMyths = allMyths.length <= 3 
+       ? allMyths 
+       : getRandomElements(allMyths, 3);
+ 
+     return {
+       props: {
+         myths: selectedMyths
+       },
+       revalidate: 3600 // Regenerate page every hour
+     };
 
-    return { 
-      props: { 
-        myths: getRandomElements(myths, 3)
-      } 
-    };
+    
   } catch (error) {
-    console.error('Error in getServerSideProps:', error);
+    console.error('Error in getStaticProps:', error);
     return { notFound: true };
   }
 }
