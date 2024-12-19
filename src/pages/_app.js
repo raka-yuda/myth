@@ -3,7 +3,8 @@ import Loading from "@/components/Loading";
 import "@/styles/globals.css";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { Cardo } from '@next/font/google';
+
+import { Cardo } from "next/font/google";
 
 const cardo = Cardo({
   subsets: ['latin'],
@@ -55,14 +56,17 @@ export default function App({ Component, pageProps }) {
           }}
         />
       </Head>
-      <div className={cardo.className}>
-        {(process.env.NODE_ENV === "production") && <Analytics />}
-        {isLoading ? (
-          <Loading text="Welcome to the Mythical World!" duration={1000} />
-        ) : (
-          <Component {...pageProps} />
-        )}
-      </div>
+      <style jsx global>{`
+        html {
+          font-family: ${cardo.style.fontFamily};
+        }
+      `}</style>
+      {(process.env.NODE_ENV === "production") && <Analytics />}
+      {isLoading ? (
+        <Loading text="Welcome to the Mythical World!" duration={1000} />
+      ) : (
+        <Component {...pageProps} />
+      )}
     </>
   );
 }
