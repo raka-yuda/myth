@@ -1,8 +1,6 @@
 export async function fetchMythById(id) {
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/myths/${id}`;
 
-  console.log("url: ", url)
-
   try {
     const response = await fetch(url);
 
@@ -21,8 +19,6 @@ export async function fetchMythById(id) {
 
 export async function fetchAllMyths() {
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/api/myths`;
-
-  console.log("url: ", url)
 
   try {
     const response = await fetch(url);
