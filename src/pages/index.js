@@ -19,14 +19,16 @@ export default function Home({ myths }) {
   const availableLanguages = useMemo(() => Object.keys(myths[0]?.title || {}), [myths]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [language, setLanguage] = useState(availableLanguages[0] || '');
+  // const [language, setLanguage] = useState(availableLanguages[0] || '');
+  const [language, setLanguage] = useState("english");
 
 
   useEffect(() => { 
-    if (myths && myths.length > 0) {
-      const languages = Object.keys(myths[0].title);
-      setLanguage(languages[0]);
-    }
+    // if (myths && myths.length > 0) {
+    //   const languages = Object.keys(myths[0].title);
+    //   console.log("languages: ", languages)
+    //   setLanguage(languages[0]);
+    // }
     setIsLoading(false);
   }, [myths]);
 
