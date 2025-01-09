@@ -19,7 +19,10 @@ const CardStory = ({
           {story.synopsis[language]}
         </p>
         <Link
-          href={`/story/${story.id[language]}`}
+          href={{
+            pathname: `/story/${story.id[language]}`,
+            query: { lang: language },
+          }}
           className="text-base text-end text-gray-600 mb-2 hover:underline"
         >
           {language === 'english' ? 'Read More...' : 'Baca Selengkapnya...'} 
