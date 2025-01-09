@@ -11,13 +11,17 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "framer-motion": "^11.11.9",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^0.437.0",
     "next": "14.2.15",
+    "next-mdx-remote": "^5.0.0",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^15.1.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
     "autoprefixer": "^10.0.1",

@@ -3,10 +3,11 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { usePathname } from "next/navigation";
+import TransitionLink from './TransitionLink';
 
 
 
-const Navbar = ({ logoSrc = "", links = [] }) => {
+const Navbar = ({ logoSrc = "", links = [], isNavbarFixed = true }) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -14,7 +15,10 @@ const Navbar = ({ logoSrc = "", links = [] }) => {
 
 
   return (
-    <nav className="bg-white bg-opacity-30 backdrop-blur-md shadow-lg fixed top-0 w-full z-50">
+    <nav className={`
+      bg-white bg-opacity-75 md:bg-opacity-30 backdrop-blur-md shadow-lg w-full z-50 
+        ${isNavbarFixed ? "fixed top-0" : ""
+      }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16">
           <div className="flex items-center w-full justify-between ">
@@ -33,20 +37,39 @@ const Navbar = ({ logoSrc = "", links = [] }) => {
             <div className="hidden md:block justify-self-end">
               <div className="ml-10 flex items-baseline space-x-4" data-testid="links">
                 {links.map((link) => (
-                  <Link
+                  // <Link
+                  //   key={link.href}
+                  //   href={link.href}
+                  //   className='cursor-pointer'
+                  //   legacyBehavior>
+                  //   <a
+                  //     className={`px-3 py-2 rounded-md text-base font-medium hover:cursor-pointer ${router.pathname === link.href
+                  //       ? 'text-black'
+                  //       : 'hover:text-black text-gray-400'
+                  //       }`}
+                  //   >
+                  //     {link.label}
+                  //   </a>
+                  // </Link>
+                  <TransitionLink
                     key={link.href}
                     href={link.href}
-                    className='cursor-pointer'
-                    legacyBehavior>
-                    <a
+                    className={`px-3 py-2 rounded-md text-base font-medium hover:cursor-pointer ${router.pathname === link.href
+                      ? 'text-black'
+                      : 'hover:text-black text-gray-400'
+                      }`}
+                  // className='cursor-pointer'
+                  // legacyBehavior
+                  >
+                    {/* <a
                       className={`px-3 py-2 rounded-md text-base font-medium hover:cursor-pointer ${router.pathname === link.href
                         ? 'text-black'
                         : 'hover:text-black text-gray-400'
                         }`}
-                    >
-                      {link.label}
-                    </a>
-                  </Link>
+                    > */}
+                    {link.label}
+                    {/* </a> */}
+                  </TransitionLink>
                 ))}
               </div>
             </div>

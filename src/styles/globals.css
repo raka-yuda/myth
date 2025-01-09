@@ -25,14 +25,41 @@ body {
   /* font-family: "EB Garamond", serif; */
   /* font-family: "Spectral", serif; */
   font-family: "Cardo", serif;
-  color: rgb(var(--foreground-rgb));
+  /* color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+  transition-property: opacity, transform, filter, background;
+  transition-timing-function: ease-in-out;
+  transition-duration: 300ms;
+  /* filter: blur(6px); */
 }
+
+/* body {
+} */
+
+.page-transition {
+  opacity: 60;
+  /* background: black; */
+  /* transform: translateY(40px); */
+  filter: blur(6px);
+}
+
+/* .loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
 
 @layer utilities {
   .text-balance {
