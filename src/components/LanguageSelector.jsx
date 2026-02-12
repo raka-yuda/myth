@@ -1,14 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 const flags = {
   english: "🇬🇧",
   indonesian: "🇮🇩",
-  // Add more flags for other languages as needed
 };
 
 export default function LanguageSelector({ availableLanguages, currentLanguage, onLanguageChange }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const modalRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  // const handleClickOutside = (event) => {
+  //   if (modalRef.current && !modalRef.current.contains(event.target)) {
+  //     console.log("modalRef.current: ", modalRef.current)
+  //     console.log("buttonRef.current: ", buttonRef.current)
+  //     console.log("event.target: ", event.target)
+  //     setIsOpen(false); // Close or handle click outside
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   document.addEventListener('mousedown', handleClickOutside);
+
+  //   // Cleanup the event listener
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
+
 
   return (
     <div className="relative flex justify-end text-left w-full">
@@ -19,7 +40,13 @@ export default function LanguageSelector({ availableLanguages, currentLanguage, 
           id="language-menu"
           aria-haspopup="true"
           aria-expanded="true"
-          onClick={() => setIsOpen(!isOpen)}
+          ref={buttonRef}
+          onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(!isOpen)
+              // if (!isOpen) setIsOpen(true)
+            }
+          }
         >
           {flags[currentLanguage]} {currentLanguage.charAt(0).toUpperCase() + currentLanguage.slice(1)}
           <ChevronDown className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
@@ -28,6 +55,7 @@ export default function LanguageSelector({ availableLanguages, currentLanguage, 
 
       {isOpen && (
         <div
+          ref={modalRef}
           className="origin-top-right absolute right-0 top-10 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
           role="menu"
           aria-orientation="vertical"
